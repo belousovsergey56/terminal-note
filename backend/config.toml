@@ -1,0 +1,6 @@
+[backend]
+path_to_storage_directory = "$HOME/terminal_note"
+path_to_config_tn = "$HOME/.config/terminal_note"
+
+[template]
+path_to_template_note = "$HOME/terminal_note/template.md"
