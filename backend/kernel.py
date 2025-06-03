@@ -9,6 +9,7 @@ class TerminalNote(Config):
         super().__init__()
         if not os.path.exists(self.PATH_TO_STORAGE):
             os.makedirs(self.PATH_TO_STORAGE)
+        self.ERRORS: dict[str, dict[int, str]]
     
     def get_path(self, file_name: str) -> str:
         """Создаёт переменную путь к файлу.
@@ -20,53 +21,98 @@ class TerminalNote(Config):
         file_path = f"{self.PATH_TO_STORAGE}/{file_name}.{self.EXTENSION}"
         return file_path
 
-    def create_file(self, file_name: str) -> dict:
+    def create_file(self, file_name: str) -> dict[int, str]|None:
         """Создание файла.
         
         Args:
             file_name (str): Имя создаваемого файла
         Returns:
-            dict: {200: "Файл создан", 400: "Файл существует"}
+            dict: {0: "Файл создан"}, {1: "Файл существует"}
 
         """
         file_path = self.get_path(file_name)
         if not os.path.exists(file_path):
             with open(file_path, "w"):
-                return {200: "Файл создан"}
-        return {400: "Файл существует"}
+                return self.ERRORS.get("file_created")
+        return self.ERRORS.get("file_exists")
     
-    def edit_file(self, file_name: str) -> None|Exception:
+    def create_file_on_template(self, file_name: str) -> dict[int, str]|None:
+        """Создать файл по шаблону.
+        Создаёт файл на основании шаблона пользователя.
+        Args:
+            file_name (str): имя файла, который создаём
+
+        Returns:
+            dict[int, str]: 
+                {0: "Файл создан"},
+                {1: "Файл существует"},
+                {2: "Шаблон не существует"}, 
+
+        """
+        file_path = self.get_path(file_name)
+        if not os.path.exists(self.PATH_TO_TEMPLATE_FILE):
+            return self.ERRORS.get("template_is_not_exists")
+        if not os.path.exists(file_path):
+            with open(self.PATH_TO_TEMPLATE_FILE, "r") as t:
+                template = t.read()
+            with open(file_path, "w") as f:
+                f.write(template)
+            return self.ERRORS.get("file_created")
+        return self.ERRORS.get("file_exists")
+
+    def edit_file(self, file_name: str) -> None|dict[int,str]|Exception:
         """Изменить файл.
         Функция открывает файл для его изменения в редакторе, который указан в
         в конфиге
         Args:
             file_name (str): Имя файла, который будем редактировать
         Returns:
-            FileNotFoundError: Редактор указанный в конфиге не найден.
+            dict[int, str]: {3: "Редактор не найден"},
             subprocess.CalledProcessError: Ошибка при открытии файла.
             None: Если всё хорошо, то открывается редактор.
         """
         file_path = self.get_path(file_name)
         try:
             subprocess.run([self.EDITOR, file_path], check=True)
-        except FileNotFoundError as e:
-            return e
+        except FileNotFoundError:
+            return self.ERRORS.get("editor_error")
         except subprocess.CalledProcessError as e:
             return e
 
-    def delete_file(self, file_name: str) -> dict:
+    def delete_file(self, file_name: str) -> dict[int,str]|None:
         """Удалить файл.
         Args:
             file_name (str): Имя файла
         Returns:
-            dict: {200: "Файл удалён", 400: "Файл не найден"}
+            dict: {5: "Файл удалён", 4: "Файл не существет"}
         """
         file_path = self.get_path(file_name)
         if not os.path.exists(file_path):
-            return {400: "Файл не найден"}
+            return self.ERRORS.get("file_is_not_exists")
         os.remove(file_path)
-        return {200: "Файл удалён"}
+        return self.ERRORS.get("file_deleted")
+    
+    def read_file(self, file_name: str) -> str:
+        """Прочитать файл.
+        Функция читает файл и возвращавет его содержимое.
+        
+        Args:
+            file_name (str): имя файла
+        
+        Returns:
+            str: содержимое файла
+        
+        """
+        file_path = self.get_path(file_name)
+        with open(file_path, "r") as f:
+            return f.read()
 
-
+    def show_directory(self) -> list[str]:
+        """Вывести список файлов в директории
+        Returns:
+            list[str]: список директорий и файлоа
+        """
+        return os.listdir(self.PATH_TO_STORAGE)
+        
 if __name__ == "__main__":
     a = TerminalNote()
