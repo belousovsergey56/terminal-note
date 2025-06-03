@@ -11,3 +11,11 @@ class Config:
     EXTENSION = config_data["backend"]["file_extension"]
     PATH_TO_TEMPLATE_FILE = config_data["template"]["path_to_template_note"]
     EDITOR = config_data["editor"]["editor"]
+    ERRORS = {
+            "file_created": {0: "Файл создан"},
+            "file_exists": {1: "Файл существует"},
+            "template_is_not_exists": {2: "Шаблон не существует"},
+            "editor_error": {3: "Редактор не найден"},
+            "file_is_not_exists": {4: "Файл не существует"},
+            "file_deleted": {5: "Файл удалён"},
+            }
