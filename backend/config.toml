@@ -3,7 +3,7 @@ path_to_storage_directory = "/home/belousov/terminal_note"
 path_to_config_tn = "/home/belousov/.config/terminal_note"
 file_extension = "md"
 [template]
-path_to_template_note = "/home/belousov/terminal_note/template.md"
+path_to_template_note = "/home/belousov/terminal_note/templates/template.md"
 
 [editor]
 editor = "nvim"
