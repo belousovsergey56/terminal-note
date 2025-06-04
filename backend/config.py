@@ -18,4 +18,6 @@ class Config:
             "editor_error": {3: "Редактор не найден"},
             "file_is_not_exists": {4: "Файл не существует"},
             "file_deleted": {5: "Файл удалён"},
+            "text_saved": {6: "Заметка сохранена"},
+            "text_saved_error": {7: "Ошибка при сохранении"}
             }
