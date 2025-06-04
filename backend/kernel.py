@@ -1,4 +1,5 @@
 from config import Config
+from datetime import datetime
 
 import os
 import subprocess
@@ -91,6 +92,29 @@ class TerminalNote(Config):
             return self.ERRORS.get("file_is_not_exists")
         os.remove(file_path)
         return self.ERRORS.get("file_deleted")
+
+    def inline_note(self, text: str) -> dict[int,str]|None:
+        """Записать однострочную заметку.
+        
+        При запсиси одностройчной заметки создаётся файл в хранилище
+        С указанным расширением, имя файла генерируется автоматически в формате
+        даты и времени "2025-05-06 13:26:15"
+
+        Args:
+            text (str): строка, текст быстрой заметки
+        Returns:
+            dict[int,str]: {6: "Заметка сохранена"}, {7: "Ошибка при сохранении}
+            None: Если ошибки нет в списке
+        """
+        date =  datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file_path = self.get_path(date)
+        try:
+            with open(file_path, "w") as f:
+                f.write(text)
+            return self.ERRORS.get("text_saved")
+        except OSError:
+            return self.ERRORS.get("text_saved_error")
+
     
     def read_file(self, file_name: str) -> str:
         """Прочитать файл.
