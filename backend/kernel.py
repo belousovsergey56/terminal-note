@@ -11,7 +11,7 @@ class TerminalNote(Config):
         if not os.path.exists(self.PATH_TO_STORAGE):
             os.makedirs(self.PATH_TO_STORAGE)
         self.ERRORS: dict[str, dict[int, str]]
-    
+
     def get_path(self, file_name: str) -> str:
         """Создаёт переменную путь к файлу.
         Args:
@@ -22,9 +22,9 @@ class TerminalNote(Config):
         file_path = f"{self.PATH_TO_STORAGE}/{file_name}.{self.EXTENSION}"
         return file_path
 
-    def create_file(self, file_name: str) -> dict[int, str]|None:
+    def create_file(self, file_name: str) -> dict[int, str] | None:
         """Создание файла.
-        
+
         Args:
             file_name (str): Имя создаваемого файла
         Returns:
@@ -36,18 +36,18 @@ class TerminalNote(Config):
             with open(file_path, "w"):
                 return self.ERRORS.get("file_created")
         return self.ERRORS.get("file_exists")
-    
-    def create_file_on_template(self, file_name: str) -> dict[int, str]|None:
+
+    def create_file_on_template(self, file_name: str) -> dict[int, str] | None:
         """Создать файл по шаблону.
         Создаёт файл на основании шаблона пользователя.
         Args:
             file_name (str): имя файла, который создаём
 
         Returns:
-            dict[int, str]: 
+            dict[int, str]:
                 {0: "Файл создан"},
                 {1: "Файл существует"},
-                {2: "Шаблон не существует"}, 
+                {2: "Шаблон не существует"},
 
         """
         file_path = self.get_path(file_name)
@@ -61,7 +61,7 @@ class TerminalNote(Config):
             return self.ERRORS.get("file_created")
         return self.ERRORS.get("file_exists")
 
-    def edit_file(self, file_name: str) -> None|dict[int,str]|Exception:
+    def edit_file(self, file_name: str) -> None | dict[int, str] | Exception:
         """Изменить файл.
         Функция открывает файл для его изменения в редакторе, который указан в
         в конфиге
@@ -80,7 +80,7 @@ class TerminalNote(Config):
         except subprocess.CalledProcessError as e:
             return e
 
-    def delete_file(self, file_name: str) -> dict[int,str]|None:
+    def delete_file(self, file_name: str) -> dict[int, str] | None:
         """Удалить файл.
         Args:
             file_name (str): Имя файла
@@ -93,9 +93,9 @@ class TerminalNote(Config):
         os.remove(file_path)
         return self.ERRORS.get("file_deleted")
 
-    def inline_note(self, text: str) -> dict[int,str]|None:
+    def inline_note(self, text: str) -> dict[int, str] | None:
         """Записать однострочную заметку.
-        
+
         При запсиси одностройчной заметки создаётся файл в хранилище
         С указанным расширением, имя файла генерируется автоматически в формате
         даты и времени "2025-05-06 13:26:15"
@@ -106,7 +106,7 @@ class TerminalNote(Config):
             dict[int,str]: {6: "Заметка сохранена"}, {7: "Ошибка при сохранении}
             None: Если ошибки нет в списке
         """
-        date =  datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         file_path = self.get_path(date)
         try:
             with open(file_path, "w") as f:
@@ -115,17 +115,16 @@ class TerminalNote(Config):
         except OSError:
             return self.ERRORS.get("text_saved_error")
 
-    
     def read_file(self, file_name: str) -> str:
         """Прочитать файл.
         Функция читает файл и возвращавет его содержимое.
-        
+
         Args:
             file_name (str): имя файла
-        
+
         Returns:
             str: содержимое файла
-        
+
         """
         file_path = self.get_path(file_name)
         with open(file_path, "r") as f:
@@ -137,6 +136,7 @@ class TerminalNote(Config):
             list[str]: список директорий и файлоа
         """
         return os.listdir(self.PATH_TO_STORAGE)
-        
+
+
 if __name__ == "__main__":
     a = TerminalNote()
