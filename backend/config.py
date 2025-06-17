@@ -1,16 +1,23 @@
+import __init__
 import tomllib
 
-path_to_config = "config.toml"
+from pathlib import Path
+
+path_to_config = f"{Path.home()}/.config/terminal-note/config.toml"
 
 class Config:
-    with open(path_to_config, "rb") as f:
-        config_data = tomllib.load(f)
+    if Path(path_to_config).exists():
+        with open(path_to_config, "rb") as f:
+            config_data = tomllib.load(f)
+    else:
+        with open("./config.toml", "rb") as f:
+            config_data = tomllib.load(f)
+
     
-    PATH_TO_STORAGE = config_data["backend"]["path_to_storage_directory"]
-    PATH_TO_CONFIG_TN = config_data["backend"]["path_to_config_tn"]
-    EXTENSION = config_data["backend"]["file_extension"]
-    PATH_TO_TEMPLATE_FILE = config_data["template"]["path_to_template_note"]
+    PATH_TO_STORAGE = config_data["backend"]["path_to_storage_directory"].replace("$HOME", str(Path.home()))
+    PATH_TO_TEMPLATE_FILE = config_data["template"]["path_to_template_note"].replace("$HOME", str(Path.home()))
     EDITOR = config_data["editor"]["editor"]
+    EXTENSION = config_data["backend"]["file_extension"]
     ERRORS = {
             "file_created": {0: "Файл создан"},
             "file_exists": {1: "Файл существует"},
@@ -21,3 +28,4 @@ class Config:
             "text_saved": {6: "Заметка сохранена"},
             "text_saved_error": {7: "Ошибка при сохранении"}
             }
+
