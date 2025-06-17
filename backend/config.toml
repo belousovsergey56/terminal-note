@@ -3,12 +3,11 @@
 storage_mode = "files" # Data storage mode either in SQL or in JSON file or ordinary files, Data storage mode either in SQL or in JSON file or regular files
 
 [backend]
-path_to_storage_directory = "/home/belousov/terminal_note"
-path_to_config_tn = "/home/belousov/.config/terminal_note"
+path_to_storage_directory = "$HOME/terminal_note"
 file_extension = "md"
 
 [template]
-path_to_template_note = "/home/belousov/terminal_note/templates/template.md"
+path_to_template_note = "$HOME/terminal_note/templates/template.md"
 
 [editor]
 editor = "nvim"
