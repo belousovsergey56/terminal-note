@@ -1,7 +1,9 @@
 import __init__
 import tomllib
+import sqlite3
 
 from pathlib import Path
+
 
 path_to_config = f"{Path.home()}/.config/terminal-note/config.toml"
 
@@ -28,4 +30,10 @@ class Config:
             "text_saved": {6: "Заметка сохранена"},
             "text_saved_error": {7: "Ошибка при сохранении"}
             }
-
+    MODE = config_data["mode"]["storage_mode"]
+    
+    if not Path(PATH_TO_STORAGE).exists():
+        Path(PATH_TO_STORAGE).mkdir(511, True, True)
+    if MODE == "SQL":
+        connect = sqlite3.connect(f"{PATH_TO_STORAGE}/test.db")
+        DB = connect.cursor()
