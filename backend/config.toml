@@ -1,6 +1,6 @@
 [mode]
 # Пока не работает, добавил чтобы не забыть
-storage_mode = "files" # Data storage mode either in SQL or in JSON file or ordinary files, Data storage mode either in SQL or in JSON file or regular files
+storage_mode = "SQL" # Data storage mode either in SQL or in JSON file or ordinary files, Data storage mode either in SQL or in JSON file or regular files
 
 [backend]
 path_to_storage_directory = "$HOME/terminal_note"
