@@ -11,8 +11,6 @@ import subprocess
 class TerminalNote(Config, HandlerStrategy):
     def __init__(self):
         super().__init__()
-        if not os.path.exists(self.PATH_TO_STORAGE):
-            os.makedirs(self.PATH_TO_STORAGE)
         self.ERRORS: dict[str, dict[int, str]]
 
     def get_path(self, file_name: str) -> str:
