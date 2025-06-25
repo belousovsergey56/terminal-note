@@ -396,13 +396,13 @@ source = { editable = "." }
 dependencies = [
     { name = "frogmouth" },
     { name = "iterfzf" },
-    { name = "pytest" },
 ]
 
 [package.dev-dependencies]
 dev = [
     { name = "black" },
     { name = "pylint" },
+    { name = "pytest" },
     { name = "ruff" },
 ]
 
@@ -410,13 +410,13 @@ dev = [
 requires-dist = [
     { name = "frogmouth", specifier = ">=0.9.2" },
     { name = "iterfzf", specifier = ">=1.8.0.62.0" },
-    { name = "pytest", specifier = ">=8.4.1" },
 ]
 
 [package.metadata.requires-dev]
 dev = [
     { name = "black", specifier = ">=25.1.0" },
     { name = "pylint", specifier = ">=3.3.7" },
+    { name = "pytest", specifier = ">=8.4.1" },
     { name = "ruff", specifier = ">=0.11.12" },
 ]
 
