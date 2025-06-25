@@ -1,14 +1,25 @@
-import __init__
-from backend.config import Config
-from backend.strategy import HandlerStrategy
-from datetime import datetime
-
+"""File Handler.
+Реализует стратегию работы с файлом в консоли.
+"""
 import os
 import subprocess
+import time
+from datetime import datetime
+from pathlib import Path
+from types import NoneType
+from typing import Generator
 
+from backend.config import Config
+from backend.strategy import HandlerStrategy
+from iterfzf import iterfzf
+
+import __init__
 
 
 class TerminalNote(Config, HandlerStrategy):
+    """Класс TerminalNote.
+    Содержит реализацию работы с файлом в консоли.
+    """
     def __init__(self):
         super().__init__()
         self.ERRORS: dict[str, dict[int, str]]
@@ -22,6 +33,32 @@ class TerminalNote(Config, HandlerStrategy):
         """
         file_path = f"{self.PATH_TO_STORAGE}/{file_name}"
         return file_path
+
+    def file_list(self) -> Generator:
+        """Список файлов в директории
+        Сканирование директории и сбор всех файлов в список.
+
+        Returns:
+            Функция возвращает генератор с задержкой 0.01 сек.
+        """
+        path = Path(self.PATH_TO_STORAGE)
+        file_list = [str(file) for file in path.glob("**/*") if file.is_file()]
+        for file in file_list:
+            yield file
+            time.sleep(0.01)
+
+    def prompt_fzf(self) -> tuple[str, str] | tuple[str, NoneType]:
+        """Реализация fzf
+
+        Вызывает объект iterfzf.
+        открывается список файлов, можно выбрать курсором или набрать текст, fzf отфильтрует.
+
+        Returns:
+            tuple (str, str): Если выбрать файл из текущего списка
+            tuple (str, str): Если впиcать в промпт имя файла, при условии, что файл существует
+            tuple (str, NoneType): Если вписать в промпт имя файла, а файла нет
+        """
+        return iterfzf(self.file_list(), preview="cat {}", sort=True, print_query=True)
 
     def create(self, file_name: str) -> dict[int, str] | None:
         """Создание файла.
@@ -62,36 +99,55 @@ class TerminalNote(Config, HandlerStrategy):
             return self.ERRORS.get("file_created")
         return self.ERRORS.get("file_exists")
 
-    def edit(self, file_name: str) -> None | dict[int, str] | Exception:
+    def edit(self) -> None | dict[int, str] | Exception | KeyboardInterrupt:
         """Изменить файл.
         Функция открывает файл для его изменения в редакторе, который указан в
         в конфиге
-        Args:
-            file_name (str): Имя файла, который будем редактировать
         Returns:
             dict[int, str]: {3: "Редактор не найден"},
             subprocess.CalledProcessError: Ошибка при открытии файла.
+            KeyboardInterrupt: если не выбрали файл и нажали esc
             None: Если всё хорошо, то открывается редактор.
         """
         try:
-            subprocess.run([self.EDITOR, file_name], check=True)
+            prompt, fzf = self.prompt_fzf()
+            if fzf is None:
+                create_template = self.create_on_template(str(prompt))
+                if create_template == self.ERRORS.get("template_is_not_exists"):
+                    self.create(str(prompt))
+                subprocess.run(
+                    [self.EDITOR, f"{self.PATH_TO_STORAGE}/{prompt}.{self.EXTENSION}"],
+                    check=True,
+                )
+            else:
+                subprocess.run([self.EDITOR, str(fzf)], check=True)
         except FileNotFoundError:
             return self.ERRORS.get("editor_error")
+        except KeyboardInterrupt as e:
+            return e
         except subprocess.CalledProcessError as e:
             return e
 
-    def delete(self, file_name: str) -> dict[int, str] | None:
+    def delete(self) -> dict[int, str] | None | KeyboardInterrupt | FileNotFoundError:
         """Удалить файл.
-        Args:
-            file_name (str): Имя файла
+
+        Ищем файл с помощью fzf, если файл есть удаяем нажав enter
+        Если файла нет, то вывод в консоль "Файл не найден"
+        Если отмена, то прекращение работы скрипта
+
         Returns:
             dict: {5: "Файл удалён", 4: "Файл не существет"}
         """
-        file_path = self.get_path(file_name)
-        if not os.path.exists(file_path):
-            return self.ERRORS.get("file_is_not_exists")
-        os.remove(file_path)
-        return self.ERRORS.get("file_deleted")
+        try:
+            prompt, deleted_file = self.prompt_fzf()
+            os.remove(str(deleted_file))
+            print(f"Файл \033[32m{deleted_file.split('/')[-1]}\033[0m удалён")
+            return self.ERRORS.get("file_deleted")
+        except KeyboardInterrupt as e:
+            return e
+        except FileNotFoundError as e:
+            print(f"Файл \033[31m{prompt}\033[0m не найден")
+            return e
 
     def inline_note(self, text: str) -> dict[int, str] | None:
         """Записать однострочную заметку.
@@ -115,27 +171,30 @@ class TerminalNote(Config, HandlerStrategy):
         except OSError:
             return self.ERRORS.get("text_saved_error")
 
-    def read(self, file_name: str) -> str:
+    def read(self) -> None | KeyboardInterrupt | FileNotFoundError:
         """Прочитать файл.
+
         Функция читает файл и возвращавет его содержимое.
-
-        Args:
-            file_name (str): имя файла
+        Если файл .md открывается приложение frogmouth,
+        если у файла другое расширение, то выводится в коснсоль той программой,
+        которая указана в конфиге.
 
         Returns:
-            str: содержимое файла
-
+            None: при расширении md открывается приложение,
+                в остальныхз случаях выводится тем приложением,
+                уоторое указали в конфиге
+            KeyboardInterrupt: если нажали esc, программа завершается
         """
-        file_path = self.get_path(file_name)
-        with open(file_path, "r") as f:
-            return f.read()
 
-    def show_tree(self) -> list[str]:
-        """Вывести список файлов в директории
-        Returns:
-            list[str]: список директорий и файлоа
-        """
-        return os.listdir(self.PATH_TO_STORAGE)
-
-
+        try:
+            prompt, file = self.prompt_fzf()
+            if file is None:
+                print(f"Файл \033[32m{prompt.split('/')[-1]}\033[0m не найден")
+                return
+            if ".md" in str(file):
+                subprocess.run(["frogmouth", str(file)], check=True)
+            else:
+                subprocess.run([self.FILE_READER, str(file)], check=True)
+        except KeyboardInterrupt as e:
+            return e
 
