@@ -10,7 +10,7 @@ class Config:
         with open(path_to_config, "rb") as f:
             config_data = tomllib.load(f)
     else:
-        with open("./config.toml", "rb") as f:
+        with open(f"{Path(__file__).parent}/config.toml", "rb") as f:
             config_data = tomllib.load(f)
 
     
