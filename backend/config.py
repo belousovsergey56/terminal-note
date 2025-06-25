@@ -1,9 +1,7 @@
-import __init__
 import tomllib
-import sqlite3
-
 from pathlib import Path
 
+import __init__
 
 path_to_config = f"{Path.home()}/.config/terminal-note/config.toml"
 
@@ -17,6 +15,7 @@ class Config:
 
     
     PATH_TO_STORAGE = config_data["backend"]["path_to_storage_directory"].replace("$HOME", str(Path.home()))
+    FILE_READER = config_data["backend"]["file_reader"]
     PATH_TO_TEMPLATE_FILE = config_data["template"]["path_to_template_note"].replace("$HOME", str(Path.home()))
     EDITOR = config_data["editor"]["editor"]
     EXTENSION = config_data["backend"]["file_extension"]
@@ -34,6 +33,5 @@ class Config:
     
     if not Path(PATH_TO_STORAGE).exists():
         Path(PATH_TO_STORAGE).mkdir(511, True, True)
-    if MODE == "SQL":
-        connect = sqlite3.connect(f"{PATH_TO_STORAGE}/test.db")
-        DB = connect.cursor()
+
+config = Config()
