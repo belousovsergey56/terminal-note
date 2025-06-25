@@ -1,20 +1,9 @@
 from abc import ABC, abstractmethod
 
+
 class HandlerStrategy(ABC):
     @abstractmethod
-    def create(self, name):
-        pass
-
-    @abstractmethod
-    def create_on_template(self, name):
-        pass
-
-    @abstractmethod
-    def edit(self, name):
-        pass
-
-    @abstractmethod
-    def delete(self, name):
+    def create(self, file_name):
         pass
 
     @abstractmethod
@@ -22,34 +11,32 @@ class HandlerStrategy(ABC):
         pass
 
     @abstractmethod
-    def read(self, name):
+    def edit(self):
         pass
 
     @abstractmethod
-    def show_tree(self):
+    def delete(self):
+        pass
+
+    @abstractmethod
+    def read(self):
         pass
 
 class HandlerService:
     def __init__(self, strategy: HandlerStrategy):
         self._strategy = strategy
 
-    def create(self, name):
-        return self._strategy.create(name)
-
-    def create_on_template(self, name):
-        return self._strategy.create_on_template(name)
-
-    def edit(self, name):
-        return self._strategy.edit(name)
-
-    def delete(self, name):
-        return self._strategy.delete( name)
+    def create(self, file_name):
+        return self._strategy.create(file_name)
 
     def inline_note(self, text):
         return self._strategy.inline_note(text)
+    
+    def edit(self):
+        return self._strategy.edit()
 
-    def read(self, name):
-        return self._strategy.read(name)
+    def delete(self):
+        return self._strategy.delete()
 
-    def show_tree(self):
-        return self._strategy.show_tree()
+    def read(self):
+        return self._strategy.read()
