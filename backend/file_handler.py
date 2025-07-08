@@ -98,8 +98,8 @@ class TerminalNote(Config, HandlerStrategy):
                 f.write(template)
             return self.ERRORS.get("file_created")
         return self.ERRORS.get("file_exists")
-
-    def edit(self) -> None | dict[int, str] | Exception | KeyboardInterrupt:
+    
+    def update(self) -> None | dict[int, str] | Exception | KeyboardInterrupt:
         """Изменить файл.
         Функция открывает файл для его изменения в редакторе, который указан в
         в конфиге

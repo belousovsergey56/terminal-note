@@ -11,7 +11,7 @@ class HandlerStrategy(ABC):
         pass
 
     @abstractmethod
-    def edit(self):
+    def update(self):
         pass
 
     @abstractmethod
@@ -32,8 +32,8 @@ class HandlerService:
     def inline_note(self, text):
         return self._strategy.inline_note(text)
     
-    def edit(self):
-        return self._strategy.edit()
+    def update(self):
+        return self._strategy.update()
 
     def delete(self):
         return self._strategy.delete()
