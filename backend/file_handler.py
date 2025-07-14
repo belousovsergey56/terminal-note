@@ -121,7 +121,7 @@ class TerminalNote(Config, HandlerStrategy):
                 )
             else:
                 subprocess.run([self.EDITOR, str(fzf)], check=True)
-        except FileNotFoundError:
+        except NotADirectoryError:
             return self.ERRORS.get("editor_error")
         except KeyboardInterrupt as e:
             return e
