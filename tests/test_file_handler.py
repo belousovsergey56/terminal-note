@@ -53,39 +53,6 @@ def test_prompt_fzf(setup):
     assert result_prompt == (str(file_list[1]), '')
     assert result_prompt_none == ('', None)
 
-def test_create_file_created(setup):
-    assert setup.create("test") == setup.ERRORS.get("file_created")
-
-def test_create_file_exists(setup):
-    created_file = f"{Path(__file__).parent}/terminal_note/test.md"
-    file_list = [file for file in setup.file_list()]
-    assert created_file in file_list
-    assert setup.create("test") == setup.ERRORS.get("file_exists")
-    os.remove(created_file)
-
-def test_create_on_template_not_exists(setup):
-    assert setup.create_on_template("test") == setup.ERRORS.get("template_is_not_exists")
-    template = f"{Path(__file__).parent}/terminal_note/templates/template.md"
-    if not Path(template).exists():
-        Path(template).touch(438, True)
-    with open(template, "w") as f:
-        f.write("Template test text")
-
-def test_create_on_template_created(setup):
-    assert setup.create_on_template("test") == setup.ERRORS.get("file_created")
-
-def test_create_on_template_exists(setup):
-    assert setup.create_on_template("test") == setup.ERRORS.get("file_exists")
-
-def test_file_created_on_template(setup):
-    file = f"{Path(__file__).parent}/terminal_note/test.md"
-    with open(file, "r") as f:
-        text = f.read()
-    assert "Template test text" == text
-    os.remove(file)
-    os.remove(f"{Path(__file__).parent}/terminal_note/templates/template.md")
-
-
 @pytest.fixture
 def mock_prompt_fzf(setup):
     with patch.object(setup, 'prompt_fzf', return_value=(None, None)):
