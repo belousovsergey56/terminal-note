@@ -22,6 +22,7 @@ class HandlerStrategy(ABC):
     def read(self):
         pass
 
+
 class HandlerService:
     def __init__(self, strategy: HandlerStrategy):
         self._strategy = strategy
@@ -31,7 +32,7 @@ class HandlerService:
 
     def inline_note(self, text):
         return self._strategy.inline_note(text)
-    
+
     def update(self):
         return self._strategy.update()
 

@@ -1,6 +1,7 @@
 """File Handler.
 Реализует стратегию работы с файлом в консоли.
 """
+
 import os
 import subprocess
 import time
@@ -20,6 +21,7 @@ class TerminalNote(Config, HandlerStrategy):
     """Класс TerminalNote.
     Содержит реализацию работы с файлом в консоли.
     """
+
     def __init__(self):
         super().__init__()
         self.ERRORS: dict[str, dict[int, str]]
@@ -98,7 +100,7 @@ class TerminalNote(Config, HandlerStrategy):
                 f.write(template)
             return self.ERRORS.get("file_created")
         return self.ERRORS.get("file_exists")
-    
+
     def update(self) -> None | dict[int, str] | Exception | KeyboardInterrupt:
         """Изменить файл.
         Функция открывает файл для его изменения в редакторе, который указан в
@@ -197,4 +199,3 @@ class TerminalNote(Config, HandlerStrategy):
                 subprocess.run([self.FILE_READER, str(file)], check=True)
         except KeyboardInterrupt as e:
             return e
-
