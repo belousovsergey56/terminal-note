@@ -1,14 +1,17 @@
 [mode]
-# Пока не работает, добавил чтобы не забыть
-storage_mode = "files"  # Data storage mode either in SQL or in JSON file or ordinary files, Data storage mode either in SQL or in JSON file or regular files
+# Пока хранение только в файлах.
+storage_mode = "files"
 
 [backend]
-path_to_storage_directory = "$HOME/terminal_note"
-file_extension = "md"
-file_reader = "bat"  # bat, cat, less
+# Путь к директории, где будут храниться заметки. 
+# Скрипт парсит только переменную $HOME, другие нет. Если нужен особенныый путь, то нужно его прописать полностью.
+path_to_storage_directory = "$HOME/terminal_note"  # Путь к директории, где будут храниться заметки.
+
+file_extension = "md"  # Расширение файла с заметкой: txt, md (без точки .md)
+file_reader = "bat"  # Утилита для чтения не md файлов: bat, cat, less
 
 [template]
-path_to_template_note = "$HOME/terminal_note/templates/template.md"
+path_to_template_note = "$HOME/terminal_note/templates/template.md"  # Путь к файлу с шаблоном.
 
 [editor]
-editor = "nvim"
+editor = "nvim"  # Редактор в котором удобно писать заметки: vi, vim, nvim, micro, nano и т.д.
