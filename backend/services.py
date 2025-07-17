@@ -1,15 +1,40 @@
 import argparse
+import subprocess
+import __init__
 
 from backend.file_handler import TerminalNote
 from backend.strategy import HandlerService
+from backend.config import Config
 from sys import argv
+from pathlib import Path
+
+
+def open_config_file():
+    path_to_config = f"{Path.home()}/.config/terminal-note/config.toml"
+    path_to_directory = f"{Path.home()}/.config/terminal-note"
+    if not Path(path_to_config).exists():
+        with open(f"{Path(__file__).parent}/config.toml", "r") as f:
+            config = f.read()
+        Path(path_to_directory).mkdir(511, True, True)
+        with open(path_to_config, "w") as f:
+            f.write(config)
+        subprocess.run([Config().EDITOR, path_to_config], check=True)
+    else:
+        subprocess.run([Config().EDITOR, path_to_config], check=True)
 
 
 def file_service():
     parser = argparse.ArgumentParser(
-        description="Terminal-Note - консольная утилита для сохранения быстрых заметок в заранее определённую директорю и c заданым расширением файла.",
-        epilog="Быстрая заметка: tn \"Начать читать С.Макконнел 'Совершенный код'\" или c флагом tn -i 'Повтортиь sql запросы'.",
-        usage="\ntn [options text] [text]",
+        description="Terminal-Note - сохранение и управление заметками в терминале. Где заранее определёны директория и расширение файла.",
+        usage="tn [--help] [--config] [-i [TEXT]] [-o] [-d] [-r] [TEXT]",
+        epilog=r"""
+        Примеры: tn "Проверить логи вечером" или tn -i "Оптимизировать запрос" или tn -o или tn -r или tn -d"
+        """)
+    parser.add_argument(
+        "-c",
+        "--config",
+        nargs="?",
+        help="Открывает кофиг файл, если конфиг не создан, то создаёт его. Конфиг находится по адресу $HOME/.config/terminal-note/config.toml",
     )
     # Флаг -i, который требует текст
     parser.add_argument(
@@ -17,29 +42,29 @@ def file_service():
         nargs="?",
         const="",  # если -i без текста, то args.i == ''
         metavar="text",
-        help='inline заметка, без открытия редактора. tn -i [text] сохраняется в файл в заданную директорию. Имя файла в фомате "дата время".',
+        help='inline заметка, без открытия редактора. tn -i [text]. Имя файла в который сохранена заметка в фомате "YYYY-MM-DD H:M:S".',
     )
     # Позиционный аргумент — текст заметки
     parser.add_argument(
         "text",
         nargs="?",
-        help='inline заметка, без открытия редактора. Не требует ввода флага -i: tn [text] - сохраняется в файл в заданную директорию. Имя файла в фомате "дата время".',
+        help='inline заметка, без открытия редактора. Не требует ввода флага -i: tn [text]. Имя файла в который сохранена заметка фомате "YYYY-MM-DD H:M:S".',
     )
 
     parser.add_argument(
-        "-o",
+       "-o", 
         nargs="?",
-        help="Вызывается fzf, в списке ищем нужный файл для редактирования. Если файла нет, то утилита создаст файл и редактор открывает новый файл.",
+        help="В списке ищем нужный файл. При выборе, редактор откроет его для изменения. Если файла нет, утилита создаст файл с именем введёным в поле поиска, затем редактор открывает новый файл для изменения.",
     )
     parser.add_argument(
         "-d",
         nargs="?",
-        help="Вызывается fzf, выбираем из списка нужный файл для удаления или отменяем операцию.",
+        help="В списке ищем нужный файл. При выборе файл удалится или можно отменить операцию. Корзины нет, файл удаляется навсегда.",
     )
     parser.add_argument(
         "-r",
         nargs="?",
-        help="Вызывается fzf, выбираем из списка нужный файл для чтения. Если файл в формате .md, то файл откроется утилитой frogmouth, если файл имеет другое расширение, то файл будет прочитан утилитой на выбор: less, cat, bat. Утилиту нужно указать в конфиг файле.",
+        help="В списке ищем нужный файл. Если файл в формате .md, то его открывает утилита frogmouth. Если файл имеет другое расширение, то он будет прочитан утилитой на выбор: less, cat, bat. Утилиту нужно указать в конфиг файле.",
     )
     args = parser.parse_args()
     file_service = HandlerService(TerminalNote())
@@ -62,9 +87,18 @@ def file_service():
 
         if argv[1] == "-o":
             file_service.update()
+        if argv[1] == "-c":
+            open_config_file()
+        if argv[1] == "--config":
+            open_config_file()
+
     except IndexError:
         print("Используй tn --help для получения описания")
 
 
-if __name__ == "__main__":
+def main():
     file_service()
+
+
+if __name__ == "__main__":
+    main()
