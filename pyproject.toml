@@ -1,6 +1,6 @@
 [project]
 name = "terminal-note"
-version = "0.1.0"
+version = "0.9.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
@@ -8,6 +8,13 @@ dependencies = [
     "frogmouth>=0.9.2",
     "iterfzf>=1.8.0.62.0",
 ]
+
+[build-system]
+requires = ["setuptools>=74.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-data]
+backend = ["config.toml"]
 
 [dependency-groups]
 dev = [
@@ -19,7 +26,6 @@ dev = [
 
 [tool.uv]
 package = true
-
 
 [project.scripts]
 tn = "backend.services:main"
