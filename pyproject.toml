@@ -22,5 +22,4 @@ package = true
 
 
 [project.scripts]
-tni = "backend.service_inline_note:main"
-tno = "backend.service_edit:main"
+tn = "backend.services:main"
