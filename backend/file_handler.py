@@ -5,6 +5,7 @@
 import os
 import subprocess
 import time
+
 from datetime import datetime
 from pathlib import Path
 from types import NoneType
@@ -45,6 +46,8 @@ class TerminalNote(Config, HandlerStrategy):
         """
         path = Path(self.PATH_TO_STORAGE)
         file_list = [str(file) for file in path.glob("**/*") if file.is_file()]
+        if len(file_list) < 1:
+            yield "Директория пуста"
         for file in file_list:
             yield file
             time.sleep(0.01)
@@ -60,7 +63,10 @@ class TerminalNote(Config, HandlerStrategy):
             tuple (str, str): Если впиcать в промпт имя файла, при условии, что файл существует
             tuple (str, NoneType): Если вписать в промпт имя файла, а файла нет
         """
-        return iterfzf(self.file_list(), preview="cat {}", sort=True, print_query=True)
+        return iterfzf(self.file_list(),
+                       preview="cat {}", sort=True, print_query=True,
+                       prompt="Введи имя файла: ")
+        
 
     def create(self, file_name: str) -> dict[int, str] | None:
         """Создание файла.
@@ -113,6 +119,9 @@ class TerminalNote(Config, HandlerStrategy):
         """
         try:
             prompt, fzf = self.prompt_fzf()
+            if "Директория пуста" in (prompt, fzf):
+                print("Директория пуста")
+                return
             if fzf is None:
                 create_template = self.create_on_template(str(prompt))
                 if create_template == self.ERRORS.get("template_is_not_exists"):
@@ -142,6 +151,9 @@ class TerminalNote(Config, HandlerStrategy):
         """
         try:
             prompt, deleted_file = self.prompt_fzf()
+            if "Директория пуста" in (prompt, deleted_file):
+                print("Директория пуста")
+                return
             os.remove(str(deleted_file))
             print(f"Файл \033[32m{deleted_file.split('/')[-1]}\033[0m удалён")
             return self.ERRORS.get("file_deleted")
@@ -187,9 +199,13 @@ class TerminalNote(Config, HandlerStrategy):
                 уоторое указали в конфиге
             KeyboardInterrupt: если нажали esc, программа завершается
         """
-
+       
         try:
             prompt, file = self.prompt_fzf()
+            if "Директория пуста" in (prompt, file):
+                print("Директория пуста")
+                return
+
             if file is None:
                 print(f"Файл \033[32m{prompt.split('/')[-1]}\033[0m не найден")
                 return
