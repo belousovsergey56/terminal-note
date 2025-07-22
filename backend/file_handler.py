@@ -212,6 +212,9 @@ class TerminalNote(Config, HandlerStrategy):
             if ".md" in str(file):
                 subprocess.run(["frogmouth", str(file)], check=True)
             else:
-                subprocess.run([self.FILE_READER, str(file)], check=True)
+                if self.FILE_READER:
+                    subprocess.run([self.FILE_READER, str(file)], check=True)
+                else:
+                    subprocess.run(["cat", str(file)], check=True)
         except KeyboardInterrupt as e:
             return e
