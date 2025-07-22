@@ -13,7 +13,12 @@ class Config:
     else:
         with open(f"{Path(__file__).parent}/config.toml", "rb") as f:
             config_data = tomllib.load(f)
-
+        with open(f"{Path(__file__).parent}/config.toml", "r") as f:
+            dump = f.read()
+        Path(f"{Path.home()}/.config/terminal-note").mkdir(511, True, True)
+        with open(path_to_config, "w") as f:
+            f.write(dump)
+    
     PATH_TO_STORAGE = config_data["backend"]["path_to_storage_directory"].replace(
         "$HOME", str(Path.home())
     )
