@@ -1,2 +1,1 @@
-include bin/tn
 exclude tests/*
