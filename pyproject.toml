@@ -1,7 +1,7 @@
 [project]
 name = "terminal-note"
 version = "0.9.0"
-description = "Add your description here"
+description = "Простая консольная утилита для управления файлами заметок."
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
