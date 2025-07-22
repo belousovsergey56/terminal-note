@@ -1,26 +1,29 @@
 import argparse
 import subprocess
+import shutil
+import os
 import __init__
 
 from backend.file_handler import TerminalNote
 from backend.strategy import HandlerService
-from backend.config import Config
 from sys import argv
 from pathlib import Path
 
 
 def open_config_file():
+    editors = ["vi", "vim", "nvim", "micro", "nano"]
+    editor = TerminalNote().EDITOR
+
+    if not shutil.which(editor):
+        editor_list = [editor for editor in editors if shutil.which(editor)]
+        if len(editor_list) < 1:
+            print("Редактор в системе не найден")
+            return
+        else:
+            editor = editor_list[0]
+
     path_to_config = f"{Path.home()}/.config/terminal-note/config.toml"
-    path_to_directory = f"{Path.home()}/.config/terminal-note"
-    if not Path(path_to_config).exists():
-        with open(f"{Path(__file__).parent}/config.toml", "r") as f:
-            config = f.read()
-        Path(path_to_directory).mkdir(511, True, True)
-        with open(path_to_config, "w") as f:
-            f.write(config)
-        subprocess.run([Config().EDITOR, path_to_config], check=True)
-    else:
-        subprocess.run([Config().EDITOR, path_to_config], check=True)
+    subprocess.run([editor, path_to_config], check=True)
 
 
 def file_service():
