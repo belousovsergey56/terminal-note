@@ -22,4 +22,4 @@ jobs:
           pip install -r requirements.txt
       - name: Run linter and pytest
         run: |
-          make run_tests
+          pytest tests
