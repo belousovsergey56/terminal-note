@@ -1,4 +1,5 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Tests](https://github.com/belousovsergey56/terminal-note/actions/workflows/Tests.yml/badge.svg?branch=main)](https://github.com/belousovsergey56/terminal-note/actions/workflows/Tests.yml)
 
 # terminal-note
 Консольная утилита для создания и управления заметками без выхода из терминала.
