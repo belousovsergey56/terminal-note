@@ -33,6 +33,29 @@
 - `tn -d` — удалить заметку. Через `fzf` выбирается файл для удаления.
 - `tn -r` — прочитать заметку. Через `fzf` выбирается файл, который открывается в `frogmouth` (парсит Markdown с поддержкой навигации).
 
+### Демонстрация
+##### Вызов справки
+![Вызов справки](https://github.com/belousovsergey56/notes/blob/main/assets/help.gif)
+
+###### Редактирование конфиг файла
+![Конфиг файл](https://github.com/belousovsergey56/notes/blob/main/assets/config.gif)
+
+###### Быстрая заметка
+![inline note](https://github.com/belousovsergey56/notes/blob/main/assets/inlinenote.gif)
+
+###### Редактировать заметку
+![edit](https://github.com/belousovsergey56/notes/blob/main/assets/edit.gif)
+
+###### Новая заметка
+![new note](https://github.com/belousovsergey56/notes/blob/main/assets/newfile.gif)
+
+###### Удалить заметку
+![delete note](https://github.com/belousovsergey56/notes/blob/main/assets/delete.gif)
+
+###### Чтение заметки
+![read](https://github.com/belousovsergey56/notes/blob/main/assets/read.gif)
+
+
 # Зависимости
 - python >= 3.11
 - iterfzf >= 1.8.0.62.0
