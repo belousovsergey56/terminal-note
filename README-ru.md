@@ -50,25 +50,25 @@
 
 ### Демонстрация
 ##### Вызов справки
-![Вызов справки](https://github.com/belousovsergey56/notes/blob/main/assets/help.gif)
+![Вызов справки](https://github.com/belousovsergey56/belousovsergey56/blob/main/assets/help.gif)
 
 ###### Редактирование конфиг файла
-![Конфиг файл](https://github.com/belousovsergey56/notes/blob/main/assets/config.gif)
+![Конфиг файл](https://github.com/belousovsergey56/belousovsergey56/blob/main/assets/config.gif)
 
 ###### Быстрая заметка
-![inline note](https://github.com/belousovsergey56/notes/blob/main/assets/inlinenote.gif)
+![inline note](https://github.com/belousovsergey56/belousovsergey56/blob/main/assets/inlinenote.gif)
 
 ###### Редактировать заметку
-![edit](https://github.com/belousovsergey56/notes/blob/main/assets/edit.gif)
+![edit](https://github.com/belousovsergey56/belousovsergey56/blob/main/assets/edit.gif)
 
 ###### Новая заметка
-![new note](https://github.com/belousovsergey56/notes/blob/main/assets/newfile.gif)
+![new note](https://github.com/belousovsergey56/belousovsergey56/blob/main/assets/newfile.gif)
 
 ###### Удалить заметку
-![delete note](https://github.com/belousovsergey56/notes/blob/main/assets/delete.gif)
+![delete note](https://github.com/belousovsergey56/belousovsergey56/blob/main/assets/delete.gif)
 
 ###### Чтение заметки
-![read](https://github.com/belousovsergey56/notes/blob/main/assets/read.gif)
+![read](https://github.com/belousovsergey56/belousovsergey56/blob/main/assets/read.gif)
 
 
 # Зависимости

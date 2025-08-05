@@ -58,25 +58,25 @@ tn --help
 ### Demo
 
 ##### Displaying help
-![Вызов справки](https://github.com/belousovsergey56/notes/blob/main/assets/help.gif)
+![Вызов справки](https://github.com/belousovsergey56/belousovsergey56/blob/main/assets/help.gif)
 
 ###### Editing the config file
-![Конфиг файл](https://github.com/belousovsergey56/notes/blob/main/assets/config.gif)
+![Конфиг файл](https://github.com/belousovsergey56/belousovsergey56/blob/main/assets/config.gif)
 
 ###### Inline note creation
-![inline note](https://github.com/belousovsergey56/notes/blob/main/assets/inlinenote.gif)
+![inline note](https://github.com/belousovsergey56/belousovsergey56/blob/main/assets/inlinenote.gif)
 
 ###### Editing a note
-![edit](https://github.com/belousovsergey56/notes/blob/main/assets/edit.gif)
+![edit](https://github.com/belousovsergey56/belousovsergey56/blob/main/assets/edit.gif)
 
 ###### Creating a new note
-![new note](https://github.com/belousovsergey56/notes/blob/main/assets/newfile.gif)
+![new note](https://github.com/belousovsergey56/belousovsergey56/blob/main/assets/newfile.gif)
 
 ###### Deleting a note
-![delete note](https://github.com/belousovsergey56/notes/blob/main/assets/delete.gif)
+![delete note](https://github.com/belousovsergey56/belousovsergey56/blob/main/assets/delete.gif)
 
 ###### Reading a note
-![read](https://github.com/belousovsergey56/notes/blob/main/assets/read.gif)
+![read](https://github.com/belousovsergey56/belousovsergey56/blob/main/assets/read.gif)
 
 # Dependencies
 
