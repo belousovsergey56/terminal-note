@@ -1,6 +1,6 @@
 [project]
 name = "terminal-note"
-version = "0.9.0"
+version = "0.9.1"
 description = "Простая консольная утилита для управления файлами заметок."
 authors = [{name="Belousov Sergey", email="belousovsergej56@gmail.com"},]
 readme = "README.md"
