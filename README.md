@@ -2,102 +2,115 @@
 [![Tests](https://github.com/belousovsergey56/terminal-note/actions/workflows/Tests.yml/badge.svg?branch=main)](https://github.com/belousovsergey56/terminal-note/actions/workflows/Tests.yml)
 
 # terminal-note
-Консольная утилита для создания и управления заметками без выхода из терминала.
+A console utility for creating and managing notes without leaving the terminal.
 
-# Содержание
-- [Мотивация](#мотивация)
--  [Особенности](#особенности)
--   [Установка](#установка)
--   [Использвание](#использование)
--   [Демонстрация](#демонстрация)
--   [Зависимости](#зависимости)
--   [Файл конфигурации](#файл-конфигурации)
--   [Структура хранилища](#структура-хранилища)
--   [Пример шаблона template.md](#пример-шаблона-templatemd)
--   [Идеи](#идеи)
+# Contents
+- [Motivation](#motivation)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Demo](#demo)
+- [Dependencies](#dependencies)
+- [Configuration file](#configuration-file)
+- [Storage structure](#storage-structure)
+- [Example template `template.md`](#example-template-templatemd)
+- [Ideas](#ideas)
 
-## Мотивация
-Я работаю преимущественно в терминале и использую инструменты вроде `nvim`, `rg`, `fd`, `fzf`. Для ведения заметок использую Obsidian — он хранит заметки локально в отдельных `.md` - файлах, что очень удобно. Однако запуск Obsidian занимает время, а постоянное переключение между терминалом и GUI-приложением нарушает поток работы.
 
-Чтобы оставаться в терминале, я написал `terminal-note` — утилиту, позволяющую быстро создавать, искать и управлять заметками прямо из консоли.
+## Motivation
+I mostly work in the terminal and use tools like `nvim`, `rg`, `fd`, and `fzf`. For note-taking, I use Obsidian — it stores notes locally in separate `.md` files, which is very convenient. However, launching Obsidian takes time, and constantly switching between the terminal and a GUI application disrupts my workflow.
 
-## Особенности
-- Возможность создания заметоки одной командой без открытия редактора.
-- Поиск, открытие, удаление и чтение заметок с помощью `fzf`.
-- Заметки сохраняются в формате Markdown (`.md`).
-- Поддержка шаблонов и гибкая настройка через конфиг.
-- Работает с выбранной директорией — легко интегрируется с Obsidian.
-- Написание заметки в любимом консольном редакторе: nvim, micro и другие.
+To stay inside the terminal, I wrote `terminal-note` — a utility that allows you to quickly create, search, and manage notes directly from the console.
 
-## Установка
-1. Установите через pip:
-   ```bash
-   pip install terminal-note --user
-   ```
-2. Проверьте, что всё работает:
-    ```bash
-    tn --help
-    ```
+## Features
+- Create notes with one command without opening an editor.
+- Search, open, delete, and read notes using `fzf`.
+- Notes are saved in Markdown (`.md`) format.
+- Support for templates and flexible configuration through a config file.
+- Works with a chosen directory — easily integrates with Obsidian.
+- Write notes in your favorite console editor: nvim, micro, and others.
 
-# Использование
-- `tn --config` или `tn -c` — открыть конфигурационный файл.
-- `tn "текст заметки"` — создать быструю заметку. Файл будет назван по шаблону (`2025-04-05 15:30:00.md`) и сохранён в указанной директории.
-- `tn -o` — создать или открыть заметку. Сначала вводится имя файла, затем открывается редактор. Если файл существует — редактируется, если нет — создаётся.
-- `tn -d` — удалить заметку. Через `fzf` выбирается файл для удаления.
-- `tn -r` — прочитать заметку. Через `fzf` выбирается файл, который открывается в `frogmouth` (парсит Markdown с поддержкой навигации).
 
-### Демонстрация
-##### Вызов справки
+## Installation
+1. Install via pip:
+
+```bash
+pip install terminal-note --user
+```
+
+2. Verify it works:
+
+```bash
+tn --help
+```
+
+
+# Usage
+- `tn --config` or `tn -c` — open the configuration file.
+- `tn "note text"` — create a quick note. The file will be named by a template (`2025-04-05 15:30:00.md`) and saved in the specified directory.
+- `tn -o` — create or open a note. First, enter the file name, then the editor opens. If the file exists — it is edited; if not — created.
+- `tn -d` — delete a note. The file is selected for deletion via `fzf`.
+- `tn -r` — read a note. The file is selected through `fzf` and opened in `frogmouth` (which parses Markdown with navigation support).
+
+
+### Demo
+
+##### Displaying help
 ![Вызов справки](https://github.com/belousovsergey56/notes/blob/main/assets/help.gif)
 
-###### Редактирование конфиг файла
+###### Editing the config file
 ![Конфиг файл](https://github.com/belousovsergey56/notes/blob/main/assets/config.gif)
 
-###### Быстрая заметка
+###### Inline note creation
 ![inline note](https://github.com/belousovsergey56/notes/blob/main/assets/inlinenote.gif)
 
-###### Редактировать заметку
+###### Editing a note
 ![edit](https://github.com/belousovsergey56/notes/blob/main/assets/edit.gif)
 
-###### Новая заметка
+###### Creating a new note
 ![new note](https://github.com/belousovsergey56/notes/blob/main/assets/newfile.gif)
 
-###### Удалить заметку
+###### Deleting a note
 ![delete note](https://github.com/belousovsergey56/notes/blob/main/assets/delete.gif)
 
-###### Чтение заметки
+###### Reading a note
 ![read](https://github.com/belousovsergey56/notes/blob/main/assets/read.gif)
 
+# Dependencies
 
-# Зависимости
 - python >= 3.11
 - iterfzf >= 1.8.0.62.0
 - frogmouth >= 0.9.2
 
-# Файл конфигурации
+
+# Configuration file
+
 ```toml
-# Хранение только в файлах
+# Storage mode (files only)
 storage_mode = "files"
 
-# Путь к директории, где будут храниться заметки.
-# Скрипт парсит только переменную $HOME. Если нужен особенныый путь, то нужно его прописать полностью.
+# Path to the directory where notes will be stored.
+# The script parses only the $HOME variable. If a special path is needed, specify it fully.
 path_to_storage_directory = "$HOME/terminal_note"
 
-# Расширение файла с заметкой: txt, md (без точки .md)
+# File extension for notes: txt, md (without the dot .md)
 file_extension = "md"
 
-# Утилита для чтения не md файлов: bat, cat, less
+# Utility for reading non-md files: bat, cat, less
 file_reader = "cat"
 
-# Путь к файлу с шаблоном.
+# Path to the template file.
 path_to_template_note = "$HOME/terminal_note/Templates/template.md"
 
-# Редактор в котором удобно писать заметки: vi, vim, nvim, micro, nano и т.д.
+# Editor to write notes comfortably: vi, vim, nvim, micro, nano, etc.
 editor = "vi"
 ```
 
-### Структура хранилища
-Пример структуры хранилища.
+
+### Storage structure
+
+Example storage structure:
+
 ```bash
 ➜  ~ tree terminal_note
 $HOME/terminal_note/
@@ -105,27 +118,32 @@ $HOME/terminal_note/
 ├── 2025-07-22 22:34:56.md
 ├── 2025-07-27 00:41:52.md
 ├── Gurtam
-│   ├── 1. Виалон.md
-│   ├── 2. Авторизация по токену.md
-│   └── 3. Поиск элементов.md
+│   ├── 1. Vialon.md
+│   ├── 2. Token authentication.md
+│   └── 3. Searching elements.md
 ├── My Book.md
 └── Templates
     └── template.md
 
 3 directories, 8 files
 ```
-### Пример шаблона (template.md)
+
+
+### Example template (template.md)
+
 ```markdown
 ---
-Дата создания:
-Дата изменения:
-ссылки:
+Creation date:
+Modification date:
+links:
 tags:
 ---
 ```
 
-# Идеи
-- [ ] Интеграция с Git: `tn -g` выполнит `pull`, `add`, `commit`, `push`.
-- [ ] Поддержка хранения в базе данных (пока не точно — т.к нарушает совместимость с Obsidian).
-- [ ] Возможно стоит сделать запись inline заметок в отдельную директорию, чтобы было легче искать.
+
+# Ideas
+
+- [ ] Git integration: `tn -g` will perform `pull`, `add`, `commit`, `push`.
+- [ ] Support storage in a database (not sure yet — as it breaks compatibility with Obsidian).
+- [ ] Possibly store inline quick notes in a separate directory for easier searching.
 
