@@ -123,6 +123,11 @@ class TerminalNote(Config, HandlerStrategy):
                 print("Директория пуста")
                 return
             if fzf is None:
+                if "/" in str(prompt):
+                    file = self.get_path(str(prompt)).split("/")[-1]
+                    file_path = self.get_path(str(prompt)).replace(f"/{file}", "")
+                    Path(file_path).mkdir(parents=True, exist_ok=True)
+
                 create_template = self.create_on_template(str(prompt))
                 if create_template == self.ERRORS.get("template_is_not_exists"):
                     self.create(str(prompt))
@@ -218,3 +223,4 @@ class TerminalNote(Config, HandlerStrategy):
                     subprocess.run(["cat", str(file)], check=True)
         except KeyboardInterrupt as e:
             return e
+
