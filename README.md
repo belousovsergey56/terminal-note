@@ -1,7 +1,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Tests](https://github.com/belousovsergey56/terminal-note/actions/workflows/Tests.yml/badge.svg?branch=main)](https://github.com/belousovsergey56/terminal-note/actions/workflows/Tests.yml)
 [![Publish Python package to PyPI](https://github.com/belousovsergey56/terminal-note/actions/workflows/python-publish.yml/badge.svg)](https://github.com/belousovsergey56/terminal-note/actions/workflows/python-publish.yml)
-[![PyPI version](https://img.shields.io/pypi/v/terminal-note?style=flat-square&color=green)](https://pypi.org/project/terminal-note/)
+[![PyPI version](https://img.shields.io/pypi/v/terminal-note?&color=green)](https://pypi.org/project/terminal-note/)
+
 
 [Русский](README-ru.md)
 
